@@ -7,3 +7,7 @@ A very simple GUI for multi vessel &amp; multi object motion capture. It is deve
 
   > $SKLOESUB,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,*
 
+Install the Tkinter before using the program.
+
+> sudo apt-get install python3-tk
+

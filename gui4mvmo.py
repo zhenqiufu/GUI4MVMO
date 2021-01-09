@@ -137,10 +137,6 @@ def communication():
 		if not returnData:
 			break
 		rscv_str=str(returnData)
-		# print(rscv_str)
-		# x=rscv_str.split(',')
-		# print(x[1])
-		# print('Recv data is:  %s' %rscv_str.decode('utf-8'))
 	clientSocket.close()
 
 # thread function for GUI layout and show
