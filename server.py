@@ -105,7 +105,7 @@ while True:
                   +","+str(relative_y)+","+str(relative_z)+","+"*"
 
         # senddata="$SKLOESUB,1234.1234,2345.1234,1234.1234,1234.1234,1234.1234,1234.1234,1234.1234,1234.1234,1234.1234,*"
-
+        senddata2="$SKLOESUB,27.556687,-0.591480,188.437654,-2.644942,11.087367,225.230000,30.201629,11.678847,36.792346,*"
         clientSocket.send(senddata.encode('utf-8'))
     clientSocket.close()
 tcpSocket.close()

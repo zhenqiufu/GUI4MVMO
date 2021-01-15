@@ -11,3 +11,5 @@ Install the Tkinter before using the program.
 
 > sudo apt-get install python3-tk
 
+- update log
+  - add the multi thread synchronization

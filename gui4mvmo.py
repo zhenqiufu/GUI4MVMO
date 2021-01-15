@@ -21,6 +21,8 @@ ADDR = (serverName,serverPort)
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect(ADDR)
 
+lock = _thread.allocate()
+
 # # # $SKLOESUB,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,XXXX.XXXX,*
 # # $SKLOESUB, XXXX.XXXX一号船x坐标, XXXX.XXXX一号船y坐标 ，XXXX.XXXX一号船首向角, 
 # # XXXX.XXXX二号船x坐标, XXXX.XXXX二号船y坐标, XXXX, XXXX二号船首向角, XXXX, 
@@ -29,6 +31,7 @@ clientSocket.connect(ADDR)
 
 # global handle
 global rscv_str
+rscv_str="$SKLOESUB,9999.999999,-0.591480,188.437654,-2.644942,11.087367,225.230000,30.201629,11.678847,36.792346,*"
 global root
 
 global lb_body_1_x_value
@@ -51,6 +54,8 @@ global lb
 def getallvarible():
 	# global handle
 	global rscv_str
+	# rscv_str = "$SKLOESUB,27.556687,-0.591480,188.437654,-2.644942,11.087367,225.230000,30.201629,11.678847,36.792346,*"
+	
 	global lb_body_1_x_value
 	global lb_body_1_y_value
 	global lb_body_1_phi_value
@@ -68,6 +73,11 @@ def getallvarible():
 	global lb
 
 	# updata data
+
+	
+	# lock
+	lock.acquire()
+	
 	# time
 	timestr = time.strftime("%Y-%m-%d %H:%M:%S") # 获取当前的时间并转化为字符串
 	timestep="当前时间：　"+timestr
@@ -125,6 +135,9 @@ def getallvarible():
 	# run update
 	root.after(100, getallvarible) 
 
+	# lock
+	lock.release()
+
 # thread function for socket to the server
 def communication():
 	global rscv_str
@@ -136,7 +149,9 @@ def communication():
 		returnData = clientSocket.recv(BUFSIZ)
 		if not returnData:
 			break
+		lock.acquire()
 		rscv_str=str(returnData)
+		lock.release()
 	clientSocket.close()
 
 # thread function for GUI layout and show
@@ -163,7 +178,8 @@ def gui():
 
 	root = tkinter.Tk()
 	root.title("多船多目标")
-	root.geometry('1920x1080')
+	# root.geometry('1920x1080')
+	root.geometry('1220x980')
 
 	# title
 	lb_name=tkinter.Label(root, text="SJTU多船多目标运动捕捉临时调试界面", borderwidth=5, relief="groove",fg='black',font=("微软雅黑",40))
@@ -252,14 +268,14 @@ def gui():
 	
 	root.mainloop()
 
-
+if __name__ == '__main__':
 # 创建两个线程
-try:
-   _thread.start_new_thread( communication, () )
-   _thread.start_new_thread( gui, () )
-except:
-   print ("Error: 无法启动线程")
+	try:
+		_thread.start_new_thread( communication, () )
+		_thread.start_new_thread( gui, () )
+	except:
+		print ("Error: 无法启动线程")
 
-while 1:
-   pass
+	while 1:
+		pass
 
